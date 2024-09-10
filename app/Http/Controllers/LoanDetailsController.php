@@ -38,7 +38,7 @@ class LoanDetailsController extends Controller
         foreach($loan_details as $loan_detail) {
             $startDate = Carbon::parse($loan_detail['first_payment_date']); 
             $endDate = Carbon::parse($loan_detail['last_payment_date']);
-            $emi = round($loan_detail['loan_amount']/$loan_detail['num_of_payments'], 0);
+            $emi = round($loan_detail['loan_amount']/$loan_detail['num_of_payments'], 2);
             while ($startDate->lte($endDate)) {
                 $columnName = $startDate->format('Y').'_' . $startDate->format('F');
                 $col_names[] = $columnName;
@@ -55,7 +55,7 @@ class LoanDetailsController extends Controller
                 $table->integer('client_id');
                 // Step 2: Create dynamic columns based on the date range
                 foreach ($col_names as $col_name) {
-                    $table->string($col_name)->default(0);
+                    $table->decimal($col_name, 10, 2)->default(0);
                 }
             });
             // Table successfully created

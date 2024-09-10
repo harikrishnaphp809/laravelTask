@@ -400,10 +400,8 @@ header {
                 <dl>
                   @foreach($emi_details as $key => $value)
                       @foreach($value as $index => $data)
-                            @if($data != 0)
                               <dt>{{$index}}</dt>
                               <dd>{{$data}}</dd>
-                            @endif
                       @endforeach
                       <div>---------------------------</div>
                   @endforeach

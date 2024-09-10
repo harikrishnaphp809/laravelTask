@@ -400,10 +400,8 @@ header {
                 <dl>
                   <?php $__currentLoopData = $emi_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                       <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php if($data != 0): ?>
                               <dt><?php echo e($index); ?></dt>
                               <dd><?php echo e($data); ?></dd>
-                            <?php endif; ?>
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       <div>---------------------------</div>
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
