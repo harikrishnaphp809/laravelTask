@@ -367,23 +367,23 @@ header {
         <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                <!-- <div class="nav-option {{{ (Request::is('admin/dashboard') ? 'option1' : '') }}}">
+                <!-- <div class="nav-option <?php echo e((Request::is('admin/dashboard') ? 'option1' : '')); ?>">
                         
-                        <h3> <a href="{{ url('/admin/dashboard') }}"> Dashboard </a></h3>
+                        <h3> <a href="<?php echo e(url('/admin/dashboard')); ?>"> Dashboard </a></h3>
                         </div> -->
     
-                        <div class="nav-option {{{ (Request::is('admin/loandetails') ? 'option1' : '') }}}">
+                        <div class="nav-option <?php echo e((Request::is('admin/loandetails') ? 'option1' : '')); ?>">
                             
-                            <h3> <a href="{{ url('/admin/loandetails') }}"> Loan Details </a></h3>
+                            <h3> <a href="<?php echo e(url('/admin/loandetails')); ?>"> Loan Details </a></h3>
                         </div>
     
-                        <div class="nav-option {{{ (Request::is('admin/emidetails') ? 'option1' : '') }}}">
+                        <div class="nav-option <?php echo e((Request::is('admin/emidetails') ? 'option1' : '')); ?>">
                             
-                        <h3> <a href="{{ url('/admin/emidetails') }}"> EMI Details </a></h3>
+                        <h3> <a href="<?php echo e(url('/admin/emidetails')); ?>"> EMI Details </a></h3>
                         </div>
-                        <div class="nav-option {{{ (Request::is('admin/logout') ? 'option1' : '') }}}">
+                        <div class="nav-option <?php echo e((Request::is('admin/logout') ? 'option1' : '')); ?>">
                             
-                        <h3><a href="{{ url('/admin/logout') }}"> Logout </a></h3>
+                        <h3><a href="<?php echo e(url('/admin/logout')); ?>"> Logout </a></h3>
                         </div>
 
                 </div>
@@ -398,19 +398,19 @@ header {
 
                 <div class="report-body">
                 <dl>
-                  @foreach($emi_details as $key => $value)
-                      @foreach($value as $index => $data)
-                            @if($data != 0)
-                              <dt>{{$index}}</dt>
-                              <dd>{{$data}}</dd>
-                            @endif
-                      @endforeach
+                  <?php $__currentLoopData = $emi_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                      <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($data != 0): ?>
+                              <dt><?php echo e($index); ?></dt>
+                              <dd><?php echo e($data); ?></dd>
+                            <?php endif; ?>
+                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       <div>---------------------------</div>
-                  @endforeach
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </dl>
                 </div>
         </div>
     </div>
     
 
-</body></html>
+</body></html><?php /**PATH C:\xampp\htdocs\laravelTask\resources\views/admin/emidetails/index.blade.php ENDPATH**/ ?>

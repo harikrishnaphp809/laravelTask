@@ -23,55 +23,55 @@ class LoanDetailsController extends Controller
     }
 
     public function index() {
-        $loan_details = $this->LoanDetailsRepository->getAll()->toArray();
+        $loan_details = $this->LoanDetailsRepository->getAll();
+        // dd($loan_details);
         return view('admin.loandetails.index', [
             'loandata' => $loan_details
         ]);
     }
 
-    public function getbyclient($id) {
+    public function process() {
         DB::statement("DROP TABLE IF EXISTS emi_details");
-        $loan_details = $this->LoanDetailsRepository->getById($id)->toArray();
-        $startDate = Carbon::parse($loan_details['first_payment_date']); 
-        $endDate = Carbon::parse($loan_details['last_payment_date']);
+        $loan_details = $this->LoanDetailsRepository->getAll();
+        $col_names = [];
+        $col_values = [];
+        foreach($loan_details as $loan_detail) {
+            $startDate = Carbon::parse($loan_detail['first_payment_date']); 
+            $endDate = Carbon::parse($loan_detail['last_payment_date']);
+            $emi = round($loan_detail['loan_amount']/$loan_detail['num_of_payments'], 0);
+            while ($startDate->lte($endDate)) {
+                $columnName = $startDate->format('Y').'_' . $startDate->format('F');
+                $col_names[] = $columnName;
+                $col_values[$loan_detail['clientid']][$columnName] = $emi;
+                //$col_values['client_id'] = $loan_detail['clientid'];
+                $startDate->addMonth();
+            }
+        }
+        $col_names = array_unique($col_names);
+        // dd($col_names);
         if (!Schema::hasTable($this->tableName)) {
-            Schema::create($this->tableName, function (Blueprint $table) use ($startDate, $endDate) {
+            Schema::create($this->tableName, function (Blueprint $table) use ($col_names) {
                 $table->id(); // Primary key
                 $table->integer('client_id');
                 // Step 2: Create dynamic columns based on the date range
-                $currentDate = $startDate;
-                
-                while ($currentDate->lte($endDate)) {
-                    $columnName = $currentDate->format('Y').'_' . $currentDate->format('F'); // Example: 'data_2024_01_01'
-                    $table->string($columnName)->nullable();
-                    $currentDate->addMonth();
+                foreach ($col_names as $col_name) {
+                    $table->string($col_name)->default(0);
                 }
-
-                // Optionally add standard fields like timestamps
-                //$table->timestamps();
             });
             // Table successfully created
             $tableCreated = true;
         } else {
             $tableCreated = false; // Table already exists
         }
-
-        // Step 3: Insert data into the dynamic table
         $data = [];
-        $emi = $loan_details['loan_amount']/$loan_details['num_of_payments'];
-        // Loop through the date range to create the data array dynamically
-        $currentDate = Carbon::parse($loan_details['first_payment_date']);
-        $endDate = Carbon::parse($loan_details['last_payment_date']);
-        // dd($currentDate);
-        while ($currentDate->lte($endDate)) {
-            $columnName = $currentDate->format('Y').'_' . $currentDate->format('F'); // Example: 'data_2024_01_01'
-            $data[$columnName] = $emi;
-            $data['client_id'] = $loan_details['clientid'];
-            $currentDate->addMonth();
+        foreach ($col_values as $key => $value) {
+           foreach($value as $inner_key => $inner_value) {
+            $data['client_id'] = $key;
+            $data[$inner_key] = $inner_value;
+            // Insert the dynamic data into the table
         }
-
-        // Insert the dynamic data into the table
-        DB::table($this->tableName)->insert($data);
+            DB::table($this->tableName)->insert($data);
+        }
         return redirect(route('get_emi_details'))->with('success','Emi Data Processed Successfully.');;
     }
 

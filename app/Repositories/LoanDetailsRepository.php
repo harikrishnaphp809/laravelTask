@@ -19,7 +19,7 @@ class LoanDetailsRepository
 
     public function getAll()
     {
-        return $this->LoanDetail->all();
+        return $this->LoanDetail->all()->toArray();
     }
 
     public function create($data)

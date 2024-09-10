@@ -3,7 +3,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, 
                    initial-scale=1.0">
-    <title>EMI Details</title>
+    <title>Loan Details</title>
     <style>
         /* Main CSS Here */
 
@@ -292,8 +292,8 @@ header {
 }
 
 .view {
-    height: 60px;
-    width: 127px;
+    height: 52px;
+    width: 140px;
     border-radius: 8px;
     background-color: #5500cb;
     color: white;
@@ -367,24 +367,24 @@ header {
         <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                <!-- <div class="nav-option {{{ (Request::is('admin/dashboard') ? 'option1' : '') }}}">
+                <!-- <div class="nav-option <?php echo e((Request::is('admin/dashboard') ? 'option1' : '')); ?>">
                         
-                        <h3> <a href="{{ url('/admin/dashboard') }}"> Dashboard </a></h3>
-                        </div> -->
-    
-                        <div class="nav-option {{{ (Request::is('admin/loandetails') ? 'option1' : '') }}}">
-                            
-                            <h3> <a href="{{ url('/admin/loandetails') }}"> Loan Details </a></h3>
-                        </div>
-    
-                        <div class="nav-option {{{ (Request::is('admin/emidetails') ? 'option1' : '') }}}">
-                            
-                        <h3> <a href="{{ url('/admin/emidetails') }}"> EMI Details </a></h3>
-                        </div>
-                        <div class="nav-option {{{ (Request::is('admin/logout') ? 'option1' : '') }}}">
-                            
-                        <h3><a href="{{ url('/admin/logout') }}"> Logout </a></h3>
-                        </div>
+                <h3> <a href="<?php echo e(url('/admin/dashboard')); ?>"> Dashboard </a></h3>
+                </div> -->
+
+                <div class="nav-option <?php echo e((Request::is('admin/loandetails') ? 'option1' : '')); ?>">
+                    
+                    <h3> <a href="<?php echo e(url('/admin/loandetails')); ?>"> Loan Details </a></h3>
+                </div>
+
+                <div class="nav-option <?php echo e((Request::is('admin/emidetails') ? 'option1' : '')); ?>">
+                    
+                <h3> <a href="<?php echo e(url('/admin/emidetails')); ?>"> EMI Details </a></h3>
+                </div>
+                <div class="nav-option <?php echo e((Request::is('admin/logout') ? 'option1' : '')); ?>">
+                    
+                <h3><a href="<?php echo e(url('/admin/logout')); ?>"> Logout </a></h3>
+                </div>
 
                 </div>
             </nav>
@@ -392,25 +392,41 @@ header {
         <div class="main">
         <div class="report-container">
                 <div class="report-header">
-                    <h1 class="recent-Articles">EMI Details</h1>
-                    <!-- <button class="view">View All</button> -->
+                <?php if(\Session::get('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert-body">
+                        <?php echo e(\Session::get('success')); ?>
+
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php endif; ?>
+                    <h1 class="recent-Articles">Client Details</h1>
+                    <a href="<?php echo e(url('/admin/loanprocess/')); ?>"><button class="view">Process Data</button></a>
                 </div>
 
                 <div class="report-body">
-                <dl>
-                  @foreach($emi_details as $key => $value)
-                      @foreach($value as $index => $data)
-                            @if($data != 0)
-                              <dt>{{$index}}</dt>
-                              <dd>{{$data}}</dd>
-                            @endif
-                      @endforeach
-                      <div>---------------------------</div>
-                  @endforeach
-              </dl>
+                    <div class="report-topic-heading">
+                        <h3 class="t-op">Client Id</h3>
+                        <h3 class="t-op">Loan Amount</h3>
+                        <h3 class="t-op">Total EMI's</h3>
+                        <h3 class="t-op">First Payment Date</h3>
+                        <h3 class="t-op">Last Payment Date</h3>
+                    </div>
+                    <div class="items">
+                    <?php $__currentLoopData = $loandata; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="item1">
+                            <h3 class="t-op-nextlvl"><?php echo e($data['clientid']); ?></h3>
+                            <h3 class="t-op-nextlvl"><?php echo e($data['loan_amount']); ?></h3>
+                            <h3 class="t-op-nextlvl"><?php echo e($data['num_of_payments']); ?></h3>
+                            <h3 class="t-op-nextlvl"><?php echo e($data['first_payment_date']); ?></h3>
+                            <h3 class="t-op-nextlvl"><?php echo e($data['last_payment_date']); ?></h3>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
                 </div>
         </div>
     </div>
     
 
-</body></html>
+</body></html><?php /**PATH C:\xampp\htdocs\laravelTask\resources\views/admin/loandetails/index.blade.php ENDPATH**/ ?>

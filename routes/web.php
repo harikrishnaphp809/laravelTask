@@ -26,7 +26,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //     return view('admin.dashboard');
         // })->name('adminDashboard');
         Route::get('/loandetails', [LoanDetailsController::class, 'index'])->name('get_loan_details');
-        Route::get('/loandetails/{clientid}', [LoanDetailsController::class, 'getbyclient'])->name('get_loan_details_by_client');
+        // Route::get('/loandetails/{clientid}', [LoanDetailsController::class, 'getbyclient'])->name('get_loan_details_by_client');
         Route::get('/loanprocess', [LoanDetailsController::class, 'process'])->name('convert_emis');
         Route::get('/emidetails', [EmiDetailsController::class, 'index'])->name('get_emi_details');
     });

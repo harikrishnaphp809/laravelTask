@@ -3,7 +3,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, 
                    initial-scale=1.0">
-    <title>dashboard</title>
+    <title>Loan Details</title>
     <style>
         /* Main CSS Here */
 
@@ -292,8 +292,8 @@ header {
 }
 
 .view {
-    height: 45px;
-    width: 90px;
+    height: 52px;
+    width: 140px;
     border-radius: 8px;
     background-color: #5500cb;
     color: white;
@@ -401,7 +401,7 @@ header {
                 </div>
                 @endif
                     <h1 class="recent-Articles">Client Details</h1>
-                    <!-- <a href="{{ url('/admin/loanprocess') }}"><button class="view">Process Data</button></a> -->
+                    <a href="{{ url('/admin/loanprocess/') }}"><button class="view">Process Data</button></a>
                 </div>
 
                 <div class="report-body">
@@ -411,7 +411,6 @@ header {
                         <h3 class="t-op">Total EMI's</h3>
                         <h3 class="t-op">First Payment Date</h3>
                         <h3 class="t-op">Last Payment Date</h3>
-                        <h3 class="t-op">Process</h3>
                     </div>
                     <div class="items">
                     @foreach ($loandata as $data)
@@ -421,7 +420,6 @@ header {
                             <h3 class="t-op-nextlvl">{{ $data['num_of_payments'] }}</h3>
                             <h3 class="t-op-nextlvl">{{ $data['first_payment_date'] }}</h3>
                             <h3 class="t-op-nextlvl">{{ $data['last_payment_date'] }}</h3>
-                            <a href="/admin/loandetails/{{$data['id']}}"><button class="view">Process Data</button></a>
                         </div>
                     @endforeach
                     </div>

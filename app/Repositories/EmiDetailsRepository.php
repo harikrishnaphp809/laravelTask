@@ -19,7 +19,7 @@ class EmiDetailsRepository
 
     public function getAll()
     {
-        return $this->EmiDetail->all();
+        return $this->EmiDetail->all()->toArray();
     }
 
     public function create($data)
